@@ -22,10 +22,10 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     bat'''
                     mvn sonar:sonar \
-                    -Dsonar.projectKey=pipeline3 \
+                    -Dsonar.projectKey=pipeline4 \
                    -Dsonar.sources=src/main/java \
                    -Dsonar.host.url=http://localhost:9000 \
-                   -Dsonar.login=%sonar_token%
+                   -Dsonar.login=%SONAR_TOKEN%
                    '''
                 }
             }
