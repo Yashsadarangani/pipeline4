@@ -19,7 +19,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             environment {
-                SONAR_TOKEN = credentials('sonar')
+                SONAR_TOKEN = credentials('s')
             }
             steps {
                 withSonarQubeEnv('sonarqube-server') {
@@ -28,7 +28,7 @@ pipeline {
                     -Dsonar.projectKey=pipeline4 \
                    -Dsonar.sources=src/main/java \
                    -Dsonar.host.url=http://localhost:9000 \
-                   -Dsonar.login=%SONAR_TOKEN%
+                   -Dsonar.token=%SONAR_TOKEN%
                    '''
                 }
             }
