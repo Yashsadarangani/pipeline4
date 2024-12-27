@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    tools {
+        maven 'sonarmaven' // The Maven installation name
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('SonarQube Analysis') {
+            environment {
+                SONAR_TOKEN = credentials('sonarqube-credentials')
+            }
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    bat'''
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=pipeline3 \
+                   -Dsonar.sources=src/main/java \
+                   -Dsonar.host.url=http://localhost:9000 \
+                   -Dsonar.login=%sonar_token%
+                   '''
+                }
+            }
+        }
+    }
+  post {
+        success {
+            echo 'Build Succeeded!'
+        }
+        failure {
+            echo 'Build Failed'
+        }
+    }
+}
