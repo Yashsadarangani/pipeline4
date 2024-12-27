@@ -3,6 +3,9 @@ pipeline {
     tools {
         maven 'sonarmaven' // The Maven installation name
     }
+    environment{
+        PATH = "${PATH};C:\\Windows\\System32"
+    }
     stages {
         stage('Checkout') {
             steps {
